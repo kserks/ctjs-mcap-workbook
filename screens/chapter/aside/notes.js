@@ -24,7 +24,7 @@ getWorkbooks(function (notes){
           let item = new UIRoundedRectangle(5)
                   .setX( (0).pixels() )
                   .setY( new SiblingConstraint(5) )
-                  .setWidth( new SubtractiveConstraint( (100).percent(), (5).pixels() ))
+                  .setWidth( new SubtractiveConstraint( (100).percent(), (0).pixels() ))
                   .setHeight( ( 20 ).pixels() )
                   .setColor( color.asideNoteItem )
                   .onMouseEnter( _this=>{

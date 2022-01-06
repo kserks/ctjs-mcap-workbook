@@ -8,6 +8,7 @@ import {
   SiblingConstraint,
   UIWrappedText,
   UIMultilineTextInput,
+  UITextInput,
   UIContainer
 } from 'Elementa'
 
@@ -53,25 +54,61 @@ const contentNoteCenter = new UIRoundedRectangle(3)
                 .setHeight( new SubtractiveConstraint( (50).percent(), (0).pixels() ) )
                 .setColor( color.content )
                 .setChildOf(content)
-const contentHeader = new UIRoundedRectangle(3)
+/**
+ * CENTER Header
+ */
+const contentHeader = new UIContainer()
                 .setX( (0).pixels() )
                 .setY( (0).pixels() )
                 .setWidth( new SubtractiveConstraint( (100).percent(), (0).pixels() ) )
                 .setHeight( (20).pixels() )
-                .setColor( color.contentNoteCollapsed )
                 .setChildOf(contentNoteCenter)
-state.content.centerHeaderText = new UIText('', false)
+// header order
+const orderWrapper = new UIRoundedRectangle(3)
+                .setX( (0).pixels() )
+                .setY( (0).pixels() )
+                .setWidth( new SubtractiveConstraint( (6).percent(), (0).pixels() ) )
+                .setHeight( (20).pixels() )
+                .setColor( color.contentNoteCollapsed )
+                .onMouseClick((mx, my, btn) => {
+                    state.content.inputOrder.grabWindowFocus()
+                    //let text = inputOrder.getText()
+                })
+                .setChildOf(contentHeader)
+
+state.content.inputOrder = new UITextInput('')
+                    .setX((5).pixels())
+                    .setY((5).pixels())
+                    .setWidth(new SubtractiveConstraint( (100).percent(), (0).pixels() ))
+                    .setHeight((20).pixels())
+                    .setChildOf(orderWrapper)
+
+    
+//header title
+const titleWrapper = new UIRoundedRectangle(3)
+                .setX( new SiblingConstraint(3) )
+                .setY(  (0).pixels() )
+                .setWidth( new SubtractiveConstraint( (94).percent(), (3).pixels() ) )
+                .setHeight( (20).pixels() )
+                .setColor( color.contentNoteCollapsed )
+                .onMouseClick((mx, my, btn) => {
+                    state.content.centerHeaderText.grabWindowFocus()
+                    //let text = inputOrder.getText()
+                })
+                .setChildOf(contentHeader)
+state.content.centerHeaderText =  new UITextInput('')
                       .setX( (5).pixels() )
-                      .setY( new CenterConstraint() )
-                      .setColor(color.asideNoteItemText)
-                      .setChildOf(contentHeader)
+                      .setY(  new CenterConstraint() )
+                      .setWidth(new SubtractiveConstraint( (100).percent(), (0).pixels() ))
+
+                      .setChildOf(titleWrapper)
+
 
 const contentNoteBodyWrapper = new UIContainer()
                 .setX( (0).pixels() )
                 .setY( new SiblingConstraint(0) )
                 .setWidth( new SubtractiveConstraint( (100).percent(), (0).pixels() ) )
                 .setHeight(new SubtractiveConstraint(new FillConstraint(), (0).pixels()) )
-
                 .setChildOf(contentNoteCenter)
 
 const __str =  ''                
@@ -136,7 +173,8 @@ bus.on('ctx', function (data){
 
   const { top, center, bottom, index } = data
   state.content.topText.setText(--index+". "+top.name)
-  state.content.centerHeaderText.setText(index+". "+center.name)
+  state.content.inputOrder.setText(index)
+  state.content.centerHeaderText.setText(center.name)
   state.content.centerText.setText(center.content)
   state.content.bottomText.setText(++index+". "+bottom.name)
   

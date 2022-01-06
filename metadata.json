@@ -1,7 +1,8 @@
 {
-  "name": "blocknote",
+  "name": "workbook",
   "version": "1.0.0",  
   "entry": "index.js", 
   "creator": "mcap_serg",
-  "description": ""
+  "description": "",
+   "requires": ["requestV2"],
 }

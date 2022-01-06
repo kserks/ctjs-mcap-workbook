@@ -26,6 +26,7 @@ bus.on('screenID.notebook', ()=>{
 })
 request.getAllCourses()
 
+var courseName = null
 
 function showNotebooksList(parent){
   state.screenContainer.clearChildren()
@@ -61,6 +62,9 @@ function showNotebooksList(parent){
                       state.courseID = item.id
                       selectSubject.clearChildren()
                       getSubjects(state.courseID, selectSubject)
+                      state.workbookBtnText.setText(state.courseID)
+                      courseName = item.name
+                      state.topBarTitle.setText(courseName)
                   })
                   .setChildOf(selectCourseScreen)
                   
@@ -109,8 +113,9 @@ function getSubjects (id, selectSubject, parent){
                   })
                   .onMouseClick(_this=>{
                       state.subjectID = item.id
-                
-
+                  
+                      state.workbookBtnText.setText(state.courseID+' / '+state.subjectID)
+                      state.topBarTitle.setText(courseName+'\n'+item.name)
                   })
                   .setChildOf(selectSubject)
                   

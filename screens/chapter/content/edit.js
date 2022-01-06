@@ -87,7 +87,6 @@ const writeBtn = new UIRoundedRectangle(3)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
-                      .setChildOf(writeBtn)  
-
+                      .setChildOf(writeBtn)
   parent.addChild(wrapper)
 }
