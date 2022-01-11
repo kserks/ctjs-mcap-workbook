@@ -10,7 +10,7 @@ import color from '../../../utils/color.js'
 import { getWorkbooks } from '../../../lib/request.js'
 import bus from '../../../utils/bus.js'
 import state from '../../../lib/state.js'
-
+import clearActiveItem from '../../../utils/clear-active-item.js'
 
 export default function (parent){
 
@@ -20,25 +20,31 @@ parent.clearChildren()
 
 getWorkbooks(function (notes){
 
-      notes.map( (obj, index)=>{
-          let item = new UIRoundedRectangle(5)
+      notes.map( (ctx, index)=>{
+          let itemText = null
+          let item = new UIRoundedRectangle(3)
                   .setX( (0).pixels() )
                   .setY( new SiblingConstraint(5) )
                   .setWidth( new SubtractiveConstraint( (100).percent(), (0).pixels() ))
                   .setHeight( ( 20 ).pixels() )
                   .setColor( color.asideNoteItem )
                   .onMouseEnter( _this=>{
-                      _this.setColor(color.asideNoteItemHover)
+                     _this.setColor(color.asideNoteItemHover)
                   })
-                  .onMouseLeave( _this=>{
-                      _this.setColor(color.asideNoteItem)
+                  .onMouseLeave(_this=>{
+                       _this.setColor(color.asideNoteItem)
                   })
                   .onMouseClick(_this=>{
-                      getCurrentNotes(_this, notes)
+                      clearActiveItem(_this.getParent())
+                      itemText.setColor(color.itemActiveText)
+                      state.ctx = ctx
+                      state.content.inputOrder.setText(state.ctx.order)
+                      state.content.centerHeaderText.setText(state.ctx.name)
+                      state.content.centerText.setText(state.ctx.content) 
                   })
             
 
-          let itemText = new UIText(obj.order+'. '+obj.name, false)
+          itemText = new UIText(ctx.order+'. '+ctx.name, false)
                         .setX( (5).pixels() )
                         .setY( new CenterConstraint() )
                         .setColor(color.asideNoteItemText)
@@ -47,24 +53,5 @@ getWorkbooks(function (notes){
       })
 
 })
-
-
-
 }
 
-function getNoteByOrder (order){
-  return state.notes.filter(note=>note.order===+order)[0]
-}
-
-function getCurrentNotes(_this, notes){
-
-let index = _this.children[0].getText().match(/^\d+/i)[0]
-      
-    state.ctx = {
-          top:  getNoteByOrder(--index),
-          center: getNoteByOrder(index),
-          bottom: getNoteByOrder(++index),
-          index
-    }
-
-}

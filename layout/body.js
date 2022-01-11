@@ -7,7 +7,6 @@ import {
 } from "Elementa"
 
 import color from '../utils/color.js'
-import bus from '../utils/bus.js'
 import state from '../lib/state.js'
 /**
  * Components
@@ -24,7 +23,10 @@ import chapter from '../screens/chapter/index.js'
 
 state.screen.notebook = notebook
 state.screen.chapter = chapter
-
+/**
+ * Отображаем изначальный экран
+ */
+state.screen.notebook()
 
 
 const width = Renderer.screen.getWidth()

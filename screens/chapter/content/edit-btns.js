@@ -12,7 +12,9 @@ import {
 } from 'Elementa'
 
 import color from '../../../utils/color.js'
-import bus from '../../../utils/bus.js'
+import state from '../../../lib/state.js'
+
+
 
 
 export default function (parent){
@@ -22,7 +24,7 @@ export default function (parent){
  */
 const wrapper = new UIContainer()
                 .setX( (5).pixels() )
-                .setY( new SiblingConstraint(5) )
+                .setY( new SiblingConstraint(10) )
                 .setWidth( new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
                 .setHeight( (20).pixels() )
 
@@ -32,7 +34,7 @@ const wrapper = new UIContainer()
 const hideBtn = new UIRoundedRectangle(3)
                 .setX( (0).pixels() )
                 .setY( (0).pixels())
-                .setWidth( new SubtractiveConstraint( (25).percent(), (3.7).pixels() ) )
+                .setWidth( new SubtractiveConstraint( (25).percent(), (3).pixels() ) )
                 .setHeight( (20).pixels() )
                 .setColor( color.disabled )
                 .setChildOf(wrapper)
@@ -44,11 +46,11 @@ const hideBtn = new UIRoundedRectangle(3)
 
 /**
  * SHOW
- */
+ *//*
 const showBtn = new UIRoundedRectangle(3)
-                .setX( new SiblingConstraint(5) )
+                .setX( new SiblingConstraint(3) )
                 .setY( (0).pixels() )
-                .setWidth( new SubtractiveConstraint( (25).percent(), (3.7).pixels() ) )
+                .setWidth( new SubtractiveConstraint( (20).percent(), (0).pixels() ) )
                 .setHeight( (20).pixels() )
                 .setColor( color.disabled )
                 .setChildOf(wrapper)
@@ -56,15 +58,15 @@ const showBtn = new UIRoundedRectangle(3)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
-                      .setChildOf(showBtn)   
+                      .setChildOf(showBtn)   */
 
 /**
  * RESTORE
  */
 const restoreBtn = new UIRoundedRectangle(3)
-                .setX( new SiblingConstraint(5) )
+                .setX( new SiblingConstraint(3) )
                 .setY( (0).pixels() )
-                .setWidth( new SubtractiveConstraint( (25).percent(), (3.7).pixels() ) )
+                .setWidth( new SubtractiveConstraint( (25).percent(), (3).pixels() ) )
                 .setHeight( (20).pixels() )
                 .setColor( color.disabled )
                 .setChildOf(wrapper)
@@ -72,14 +74,38 @@ const restoreBtn = new UIRoundedRectangle(3)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
-                      .setChildOf(restoreBtn)  
+                      .setChildOf(restoreBtn)
+/**
+ * EDIT
+ */
+const editBtn = new UIRoundedRectangle(3)
+                .setX( new SiblingConstraint(3) )
+                .setY( (0).pixels() )
+                .setWidth( new SubtractiveConstraint( (25).percent(), (3).pixels() ) )
+                .setHeight( (20).pixels() )
+                .setColor( color.disabled )
+                .onMouseEnter( _this=>{
+                      _this.setColor(color.asideNoteItemHover)
+                })
+                .onMouseLeave( _this=>{
+                      _this.setColor( color.disabled )
+                })
+                .onMouseClick(_this=>{
+                    editHandler()
+                })
+                .setChildOf(wrapper)
+      new UIText('Изменить', false)
+                      .setX( new CenterConstraint() )
+                      .setY( new CenterConstraint() )
+                      .setColor(color.disabledText)
+                      .setChildOf(editBtn)
 /**
  * WRITE
  */
 const writeBtn = new UIRoundedRectangle(3)
-                .setX( new SiblingConstraint(5) )
+                .setX( new SiblingConstraint(3) )
                 .setY( (0).pixels() )
-                .setWidth( new SubtractiveConstraint( (25).percent(), (3.7).pixels() ) )
+                .setWidth( new SubtractiveConstraint( (25).percent(), (0).pixels() ) )
                 .setHeight( (20).pixels() )
                 .setColor( color.disabled )
                 .setChildOf(wrapper)
@@ -89,4 +115,22 @@ const writeBtn = new UIRoundedRectangle(3)
                       .setColor(color.disabledText)
                       .setChildOf(writeBtn)
   parent.addChild(wrapper)
+}
+
+
+var veiwMode = true
+function editHandler(){
+
+  if(veiwMode){
+    state.editMode(state.contentNoteCenter)
+    veiwMode = false
+  }
+  else{
+    //state.ctx.order = state.content.inputOrder.getText()
+    //state.ctx.name = state.content.centerHeaderText.getText()
+    //state.ctx.content = state.content.centerText.getText()
+    state.viewMode(state.contentNoteCenter)
+    veiwMode = true
+  }
+
 }

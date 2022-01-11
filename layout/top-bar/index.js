@@ -9,7 +9,6 @@ import {
 } from 'Elementa'
 
 import color from '../../utils/color.js'
-import bus from '../../utils/bus.js'
 import state from '../../lib/state.js'
 
 export default function (parent){
@@ -37,7 +36,7 @@ const noteBookBtn = new UIRoundedRectangle(3)
                       _this.setColor(color.topBarItem)
                 })
                 .onMouseClick(_this=>{
-                    state.screenID = 'notebook'
+                    state.screen.notebook()
                     
                 })
                 .setChildOf(topBar)

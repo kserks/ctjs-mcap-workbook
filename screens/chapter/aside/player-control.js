@@ -11,7 +11,6 @@ import {
 } from 'Elementa'
 
 import color from '../../../utils/color.js'
-import bus from '../../../utils/bus.js'
 import { addNote } from '../../../lib/request.js'
 
 export default function (parent){
