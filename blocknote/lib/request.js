@@ -1,12 +1,12 @@
 import request from 'requestV2'
-import config from '../config.js'
+import query from '../utils/query.js'
 import state from '../lib/state.js'
 
 
 export function getWorkbooks (callback){
 // subjectID
     
-    request({url: config.subjectsURL(state.subjectID)})
+    request({url: query.subjectsURL(state.subjectID)})
     .then(response=> {
         state.notes = JSON.parse(response).items
         callback(state.notes)
@@ -20,7 +20,7 @@ export function getWorkbooks (callback){
 
 export function addNote (body){
   request({
-    url: config.setNoteURL,
+    url: query.setNoteURL,
     method: 'POST',
     headers: {
         'User-Agent': 'Mozilla/5.0'
@@ -37,7 +37,7 @@ export function addNote (body){
 
 export function getAllCourses (callback){
     request({
-        url: config.noteBookURL
+        url: query.noteBookURL
     })
     .then(response=>{
         state.courses = JSON.parse(response).items
@@ -48,7 +48,7 @@ export function getAllCourses (callback){
 
 export function getSubjects (course, callback){
     request({
-        url: config.getSubjectsURL(course)
+        url: query.getSubjectsURL(course)
     })
     .then(response=>{
 
@@ -58,3 +58,23 @@ export function getSubjects (course, callback){
     .catch( error=>console.error(error) )
 }
 
+
+export function updateNote (data, callback){
+       
+      data.order = Number(data.order)
+      const body = JSON.stringify(data)
+      console.log(body)
+
+      request({
+        url: query.setNoteURL,
+        method: 'PUT',
+        headers: {
+            'User-Agent': 'Mozilla/5.0'
+        },
+        body
+      })
+      .then(response=>{
+        console.log(response)
+      })
+      .catch( error=>console.error( JSON.stringify(error) ) )
+}

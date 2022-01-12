@@ -13,6 +13,7 @@ const data = {
   courseID: null,
   subjectID: null,
   courseName: null,
+  ui: {}
 };
 
 const state = new Proxy(data, {

@@ -10,6 +10,9 @@ export default {
   noteBookURL: baseUrl+'query?q=select%20%2a%20from%20courses',
   getSubjectsURL: course=>{
     return  `${baseUrl}query?q=select%20%2a%20from%20subjects%20where%20course%3D%22${course}%22`
+  },
+  updateNoteURL: id=>{
+    return `${baseUrl}query?q=select%20%2a%20from%20workbooks%20where%20id%3D%22${id}%22`
   }
 
 }

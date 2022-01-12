@@ -11,7 +11,11 @@ import {
 } from 'Elementa'
 
 import color from '../../../utils/color.js'
-import { addNote } from '../../../lib/request.js'
+
+import state from '../../../lib/state.js'
+
+
+var noteName =  null
 
 export default function (parent){
 
@@ -34,7 +38,7 @@ const noteNameWrapper = new UIRoundedRectangle(3)
         .setHeight((20).pixels())
         .setColor(color.content )
 
-const noteName = new UITextInput('Имя заметки или ссылка')
+  noteName = new UITextInput('Имя заметки или ссылка')
                   .setX((5).pixels())
                   .setY((5).pixels())
                   .setWidth(new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
@@ -65,14 +69,25 @@ const newNoteBtn = new UIRoundedRectangle(3)
                 .setWidth( new SubtractiveConstraint( (50).percent(), (5).pixels() ) )
                 .setHeight( (20).pixels() )
                 .setColor( color.disabled )
-                .onMouseClick(()=>{
-                    addNewNote ()
+                .onMouseEnter( _this=>{
+                          
+                            _this.setColor(color.itemActiveText)
+                          
+                })
+                .onMouseLeave( _this=>{
+                            _this.setColor( color.disabled )
+                })
+                .onMouseClick(_this=>{
+                        
+                              addNewNote ()
+                          
                 })
                 .setChildOf(copyWrapper)
       new UIText('Новая', false)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
+
                       .setChildOf(newNoteBtn)   
 /**
  * ДАЙ СПИСАТЬ
@@ -147,23 +162,30 @@ const sendLinkBtn = new UIRoundedRectangle(3)
 
 function addNewNote (){
 
-const body = {
-  "id": "64sdd",
-  "player": "mcap_serg",
-  "subject": "Команда give",
+
+var name = noteName.getText()
+
+const ctx = {
+  "id": "",
+  "player": Player.getName(),
+  "subject": state.subjectID,
   "tso": 0,
   "dto": "",
   "code": 0,
-  "order": 12,
-  "name": "Самая новая запись",
+  "order": 15,
+  "name": name,
   "source": "",
-  "content": "Контент самаой новой записи ***ds****************************",
+  "content": "",
   "link": "",
   "mark1": 0,
   "mark2": "",
   "hide": false
 }
-addNote(body)
 
+ // addNote(body)
 
+  state.notes.push(ctx)
+  state.ctx = ctx
+
+  state.editMode(state.contentNoteCenter)
 }

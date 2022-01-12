@@ -14,8 +14,9 @@ import {
 import color from '../../../utils/color.js'
 import state from '../../../lib/state.js'
 
+import * as request from '../../../lib/request.js'
 
-
+import * as base64 from '../../../utils/base64.js'
 
 export default function (parent){
 
@@ -108,8 +109,25 @@ const writeBtn = new UIRoundedRectangle(3)
                 .setWidth( new SubtractiveConstraint( (25).percent(), (0).pixels() ) )
                 .setHeight( (20).pixels() )
                 .setColor( color.disabled )
+                .onMouseEnter( _this=>{
+                      _this.setColor(color.asideNoteItemHover)
+                })
+                .onMouseLeave( _this=>{
+                      _this.setColor( color.disabled )
+                })
+                .onMouseClick(()=>{
+                  /* !!!!!!!!! */
+                  state.ctx.order = +state.content.inputOrderEdited.getText()
+                  state.ctx.name = state.content.centerHeaderTextEdited.getText()
+                  state.ctx.content = state.content.centerTextEdited.getText()
+                  state.id =  base64.encode(state.ctx.name)
+                  request.addNote(JSON.stringify(state.ctx) )
+                  state.viewMode(state.contentNoteCenter)
+                  //state.ui.notes.draw()
+
+                })
                 .setChildOf(wrapper)
-      new UIText('Записать', false)
+      new UIText('Сохранить', false)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
@@ -117,20 +135,26 @@ const writeBtn = new UIRoundedRectangle(3)
   parent.addChild(wrapper)
 }
 
-
 var veiwMode = true
+var edited = false
 function editHandler(){
 
   if(veiwMode){
     state.editMode(state.contentNoteCenter)
     veiwMode = false
+    edited = true
   }
   else{
-    //state.ctx.order = state.content.inputOrder.getText()
-    //state.ctx.name = state.content.centerHeaderText.getText()
-    //state.ctx.content = state.content.centerText.getText()
+    if(edited){
+      //подставляем отредактированные данные вместо старых
+      state.ctx.order = state.content.inputOrderEdited.getText()
+      state.ctx.name = state.content.centerHeaderTextEdited.getText()
+      state.ctx.content = state.content.centerTextEdited.getText()
+      request.updateNote(state.ctx)
+    }
+
     state.viewMode(state.contentNoteCenter)
     veiwMode = true
   }
-
 }
+

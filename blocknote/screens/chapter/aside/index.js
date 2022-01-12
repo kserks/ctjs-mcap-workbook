@@ -6,6 +6,7 @@ import {
 } from 'Elementa'
 
 import color from '../../../utils/color.js'
+import state from '../../../lib/state.js'
 
 /**
  * Components
@@ -23,13 +24,13 @@ const aside = new UIRoundedRectangle(3)
       .setHeight( new SubtractiveConstraint( (100).percent(), (0).pixels() ) )
       .setColor( color.aside )
       .setChildOf(parent)
-const scroll = new ScrollComponent()
+state.ui.notes = new ScrollComponent()
               .setX( (5).pixels() )
               .setY( (5).pixels())
               .setWidth( (aside.getWidth()-10).pixels() )
               .setHeight(new SubtractiveConstraint( (75).percent(), (5).pixels() ))
               .setChildOf(aside)
-  notes(scroll)
+  notes(state.ui.notes)
   playerControl(aside)
 
 

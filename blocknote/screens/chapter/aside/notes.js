@@ -40,7 +40,8 @@ getWorkbooks(function (notes){
                       state.ctx = ctx
                       state.content.inputOrder.setText(state.ctx.order)
                       state.content.centerHeaderText.setText(state.ctx.name)
-                      state.content.centerText.setText(state.ctx.content) 
+                      state.content.centerText.setText(state.ctx.content)
+                      console.log( JSON.stringify(ctx) )
                   })
             
 
