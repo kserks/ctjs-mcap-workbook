@@ -6,7 +6,7 @@ import bus from './utils/bus.js'
 
 
   
-  const app = new JavaAdapter( WindowScreen, {
+const app = new JavaAdapter( WindowScreen, {
     init: function () {
             const window = this.getWindow()
             window.addChild(body)
@@ -25,3 +25,4 @@ const gui = GuiHandler.INSTANCE
 register("command", () => {
   gui.openGui(app)
 }).setName("bn");
+

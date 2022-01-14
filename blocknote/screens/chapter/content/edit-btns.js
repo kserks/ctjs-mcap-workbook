@@ -13,10 +13,11 @@ import {
 
 import color from '../../../utils/color.js'
 import state from '../../../lib/state.js'
-
+import uid from '../../../utils/uid.js'
+import * as base64 from '../../../utils/base64.js'
 import * as request from '../../../lib/request.js'
 
-import * as base64 from '../../../utils/base64.js'
+
 
 export default function (parent){
 
@@ -115,17 +116,7 @@ const writeBtn = new UIRoundedRectangle(3)
                 .onMouseLeave( _this=>{
                       _this.setColor( color.disabled )
                 })
-                .onMouseClick(()=>{
-                  /* !!!!!!!!! */
-                  state.ctx.order = +state.content.inputOrderEdited.getText()
-                  state.ctx.name = state.content.centerHeaderTextEdited.getText()
-                  state.ctx.content = state.content.centerTextEdited.getText()
-                  state.id =  base64.encode(state.ctx.name)
-                  request.addNote(JSON.stringify(state.ctx) )
-                  state.viewMode(state.contentNoteCenter)
-                  //state.ui.notes.draw()
-
-                })
+                .onMouseClick(addNote)
                 .setChildOf(wrapper)
       new UIText('Сохранить', false)
                       .setX( new CenterConstraint() )
@@ -158,3 +149,32 @@ function editHandler(){
   }
 }
 
+
+var da = base64.decode('JUQwJTlGJUQxJTgwJUQwJUI4JUQwJUIyJUQwJUI1JUQxJTgyJTIwJUQwJUJDJUQwJUI4JUQxJTgw')
+ChatLib.chat(da)
+console.log('-------------')
+console.log(base64.encode('Привет мир 2.0'))
+
+function addNote (){
+
+const body = state.content.centerTextEdited.getText()
+                  state.ctx.id =  uid(8)
+                  state.ctx.player = Player.getName()
+                  state.ctx.subject = state.subjectID
+                  state.ctx.tso = 0
+                  state.ctx.dto = ""
+                  state.ctx.code = 0
+                  state.ctx.order = +state.content.inputOrderEdited.getText()
+                  state.ctx.name = state.content.centerHeaderTextEdited.getText()
+                  state.ctx.source = body
+                  state.ctx.content = body
+                  state.ctx.link = ""
+                  state.ctx.mark1 = 0
+                  state.ctx.mark2 = ""
+                  state.ctx.hide = false
+                  request.addNote(state.ctx, ()=>{
+                    state.ui.notes()
+                  })
+                  state.viewMode(state.contentNoteCenter)
+
+}
