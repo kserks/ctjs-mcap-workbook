@@ -138,7 +138,7 @@ function editHandler(){
   else{
     if(edited){
       //подставляем отредактированные данные вместо старых
-      state.ctx.order = state.content.inputOrderEdited.getText()
+      state.ctx.order = new Number(state.content.inputOrderEdited.getText())
       state.ctx.name = state.content.centerHeaderTextEdited.getText()
       state.ctx.content = state.content.centerTextEdited.getText()
       request.updateNote(state.ctx)
@@ -150,24 +150,21 @@ function editHandler(){
 }
 
 
-var da = base64.decode('JUQwJTlGJUQxJTgwJUQwJUI4JUQwJUIyJUQwJUI1JUQxJTgyJTIwJUQwJUJDJUQwJUI4JUQxJTgw')
-ChatLib.chat(da)
-console.log('-------------')
-console.log(base64.encode('Привет мир 2.0'))
 
 function addNote (){
-
 const body = state.content.centerTextEdited.getText()
+const content = base64.encode(body)
+
                   state.ctx.id =  uid(8)
                   state.ctx.player = Player.getName()
                   state.ctx.subject = state.subjectID
                   state.ctx.tso = 0
                   state.ctx.dto = ""
                   state.ctx.code = 0
-                  state.ctx.order = +state.content.inputOrderEdited.getText()
+                  state.ctx.order = new Number(state.content.inputOrderEdited.getText())
                   state.ctx.name = state.content.centerHeaderTextEdited.getText()
-                  state.ctx.source = body
-                  state.ctx.content = body
+                  state.ctx.source = content
+                  state.ctx.content = content
                   state.ctx.link = ""
                   state.ctx.mark1 = 0
                   state.ctx.mark2 = ""

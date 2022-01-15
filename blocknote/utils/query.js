@@ -1,4 +1,7 @@
+import objToUrl from './obj-to-url.js'
+
 const baseUrl = 'http://atlant.mcacademy.ru/reindexer/api/v1/db/mcap_learn/'
+
 
 export default {
 
@@ -13,6 +16,10 @@ export default {
   },
   updateNoteURL: id=>{
     return `${baseUrl}query?q=select%20%2a%20from%20workbooks%20where%20id%3D%22${id}%22`
+  },
+  updateParam: (id, obj)=>{
+
+    return `${baseUrl}query?q=update%20workbooks%20set${objToUrl(obj)}%20where%20id%3D%22${id}%22`
   }
 
 }

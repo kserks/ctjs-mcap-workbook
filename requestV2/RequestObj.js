@@ -31,8 +31,10 @@ function RequestObj(options, resolve, reject) {
 
       var url = new JURL(options.url)
       var conn = url.openConnection();
-      //options.url
-      //conn.setSSLSocketFactory(socketFactory);
+      if(/https:/i.test(options.url) ){
+        conn.setSSLSocketFactory(socketFactory);
+      }
+
       conn.setRequestMethod(options.method);
       conn.setDoOutput(true);
       conn.setConnectTimeout(options.connectTimeout);
@@ -43,7 +45,7 @@ function RequestObj(options, resolve, reject) {
       // Headers
       Object.keys(options.headers).forEach(header => conn.setRequestProperty(header, options.headers[header]));
 
-      if (options.method === 'POST') {
+      if (options.method === 'POST'||options.method === 'PUT') {
         if (typeof options.body === 'object') {
           conn.setRequestProperty('Content-Type', 'application/json; charset=UTF-8');
           var wr;

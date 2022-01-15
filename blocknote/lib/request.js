@@ -19,25 +19,7 @@ export function getWorkbooks (callback){
 // POST /db/{database}/namespaces/{name}/items
 
 export function addNote (body, callback){
-  /*
-var body1 = {
-  "id": '745',
-  "player": "mcap_serg",
-  "subject": "A1-1.1",
-  "tso": 0,
-  "dto": "",
-  "code": 0,
-  "order": 1,
-  "name": "Тест текс тест",
-  "source": "Интересно, что все эти тексты – искусственного происхождения. Генератор случайного текста использует загруженную в него базу текстов, на основе которой с использованием определенного алгоритма и создается рыба-текст",
-  "content": "Интересно, что все эти тексты – искусственного происхождения. Генератор случайного текста использует загруженную в него базу текстов, на основе которой с использованием определенного алгоритма и создается рыба-текст",
-  "link": "",
-  "mark1": 0,
-  "mark2": "",
-  "hide": true
-}*/
 
-  //console.log(JSON.stringify(body))
   request({
     url: query.setNoteURL,
     method: 'POST',
@@ -79,39 +61,41 @@ export function getSubjects (course, callback){
 }
 
 
-export function updateNote (data, callback){
+export function updateNote (body, callback){
 
-var body1 = {
-  "id": "123",
-  "player": "mcap_serg",
-  "subject": "A1-1.1",
-  "tso": 0,
-  "dto": "",
-  "code": 0,
-  "order": 1,
-  "name": "------------ Объяление let",
-  "source": "Интересно, что все эти тексты – искусственного происхождения. Генератор случайного текста использует загруженную в него базу текстов, на основе которой с использованием определенного алгоритма и создается рыба-текст",
-  "content": "Интересно, что все эти тексты – искусственного происхождения. Генератор случайного текста использует загруженную в него базу текстов, на основе которой с использованием определенного алгоритма и создается рыба-текст",
-  "link": "",
-  "mark1": 0,
-  "mark2": "",
-  "hide": false
+  request({
+    url: query.setNoteURL,
+    method: 'PUT',
+    headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Content-Type': 'application/json',
+        'Accept':  '*/*',
+    },
+    body
+  })
+  .then(response=>{
+    console.log(response)
+    //callback()
+  })
+  .catch( error=>console.error(JSON.stringify(error) ) )
 }
 
 
-      request({
-        url: query.setNoteURL,
-        method: 'PUT',
-        headers: {
-            'User-Agent': 'Mozilla/5.0',
-            'Content-Type': 'application/json',
-            'Accept':  '*/*'
-        },
-        body: body1
-      })
-      .then(response=>{
-        console.log('put: '+response)
-      })
-      .catch( error=>console.error( JSON.stringify(error) ) )
+
+function updateParam(id, param){
+   request({url: query.updateParam(id, param)})
+    .then(response=> {
+        console.log(response)
+    })
+    .catch( error=>console.error( JSON.stringify(error) ) )
+
 }
+//updateParam('123', {order: 0, name: 'Новое имя'})
+
+/*
+
+update workbooks set hide = true, name = "let Новое имя", order = 99 where id="123"
+http://atlant.mcacademy.ru/reindexer/api/v1/db/mcap_learn/query?q=update%20workbooks%20set%20name%20%3D%20%22%D0%9D%D0%BE%D0%B2%D0%BE%D0%B5%20%D0%B8%D0%BC%D1%8F%22%20where%20id%3D%22123%22
+ */
+
 
