@@ -93,5 +93,9 @@ const __str =  ''
 
   state.content.inputOrderEdited.setText(state.ctx.order)
   state.content.centerHeaderTextEdited.setText(state.ctx.name)
-  state.content.centerTextEdited.setText(state.ctx.content)
+  state.content.centerTextEdited.setText(base64.decode(state.ctx.content) )
+
+  state.mode = 'edit'
+  state.edited = true
+  state.editBtnText.setText('Сохранить')
 }

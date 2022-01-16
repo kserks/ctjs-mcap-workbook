@@ -167,6 +167,7 @@ const newNoteBtn = new UIRoundedRectangle(3)
 
 function addNewNote (){
 
+  state.addNote = true
 
 var name = noteName.getText()
 

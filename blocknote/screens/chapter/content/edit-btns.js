@@ -39,6 +39,20 @@ const hideBtn = new UIRoundedRectangle(3)
                 .setWidth( new SubtractiveConstraint( (25).percent(), (3).pixels() ) )
                 .setHeight( (20).pixels() )
                 .setColor( color.disabled )
+                .onMouseEnter( _this=>{
+                      _this.setColor(color.asideNoteItemHover)
+                })
+                .onMouseLeave( _this=>{
+                      _this.setColor( color.disabled )
+                })
+                .onMouseClick(_this=>{
+                   state.ctx.hide = true
+                   request.updateNote(state.ctx, function (){
+                       state.ui.notes()
+
+                       setCurrentContent()
+                   })
+                })
                 .setChildOf(wrapper)
       new UIText('Скрыть', false)
                       .setX( new CenterConstraint() )
@@ -46,21 +60,7 @@ const hideBtn = new UIRoundedRectangle(3)
                       .setColor(color.disabledText)
                       .setChildOf(hideBtn)          
 
-/**
- * SHOW
- *//*
-const showBtn = new UIRoundedRectangle(3)
-                .setX( new SiblingConstraint(3) )
-                .setY( (0).pixels() )
-                .setWidth( new SubtractiveConstraint( (20).percent(), (0).pixels() ) )
-                .setHeight( (20).pixels() )
-                .setColor( color.disabled )
-                .setChildOf(wrapper)
-      new UIText('Показать', false)
-                      .setX( new CenterConstraint() )
-                      .setY( new CenterConstraint() )
-                      .setColor(color.disabledText)
-                      .setChildOf(showBtn)   */
+
 
 /**
  * RESTORE
@@ -70,7 +70,7 @@ const restoreBtn = new UIRoundedRectangle(3)
                 .setY( (0).pixels() )
                 .setWidth( new SubtractiveConstraint( (25).percent(), (3).pixels() ) )
                 .setHeight( (20).pixels() )
-                .setColor( color.disabled )
+                .setColor( color.disabled2 )
                 .setChildOf(wrapper)
       new UIText('Востановить', false)
                       .setX( new CenterConstraint() )
@@ -93,10 +93,15 @@ const editBtn = new UIRoundedRectangle(3)
                       _this.setColor( color.disabled )
                 })
                 .onMouseClick(_this=>{
+                  if(state.addNote){
+                    addNote()
+                  }
+                  else{
                     editHandler()
+                  }
                 })
                 .setChildOf(wrapper)
-      new UIText('Изменить', false)
+  state.editBtnText = new UIText('Изменить', false)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
@@ -110,15 +115,15 @@ const writeBtn = new UIRoundedRectangle(3)
                 .setWidth( new SubtractiveConstraint( (25).percent(), (0).pixels() ) )
                 .setHeight( (20).pixels() )
                 .setColor( color.disabled )
-                .onMouseEnter( _this=>{
+                /*.onMouseEnter( _this=>{
                       _this.setColor(color.asideNoteItemHover)
                 })
                 .onMouseLeave( _this=>{
                       _this.setColor( color.disabled )
                 })
-                .onMouseClick(addNote)
+                .onMouseClick(addNote)*/
                 .setChildOf(wrapper)
-      new UIText('Сохранить', false)
+      new UIText('4', false)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
@@ -126,32 +131,32 @@ const writeBtn = new UIRoundedRectangle(3)
   parent.addChild(wrapper)
 }
 
-var veiwMode = true
-var edited = false
+
+
 function editHandler(){
 
-  if(veiwMode){
+  if(state.mode==='view'){
     state.editMode(state.contentNoteCenter)
-    veiwMode = false
-    edited = true
+
+
   }
   else{
-    if(edited){
+    if(state.edited){
+      state.editBtnText.setText('Изменить')
       //подставляем отредактированные данные вместо старых
       state.ctx.order = new Number(state.content.inputOrderEdited.getText())
       state.ctx.name = state.content.centerHeaderTextEdited.getText()
-      state.ctx.content = state.content.centerTextEdited.getText()
-      request.updateNote(state.ctx)
+      state.ctx.content = base64.encode(state.content.centerTextEdited.getText())
+      request.updateNote(state.ctx, function (){})
     }
-
     state.viewMode(state.contentNoteCenter)
-    veiwMode = true
   }
 }
 
 
 
 function addNote (){
+  state.addNote = false
 const body = state.content.centerTextEdited.getText()
 const content = base64.encode(body)
 
@@ -175,3 +180,12 @@ const content = base64.encode(body)
                   state.viewMode(state.contentNoteCenter)
 
 }
+
+
+
+function setCurrentContent(){
+      state.content.inputOrder.setText('')
+      state.content.centerHeaderText.setText('' )
+      state.content.centerText.setText('')
+}
+

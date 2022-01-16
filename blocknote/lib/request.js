@@ -75,7 +75,7 @@ export function updateNote (body, callback){
   })
   .then(response=>{
     console.log(response)
-    //callback()
+    callback()
   })
   .catch( error=>console.error(JSON.stringify(error) ) )
 }
@@ -90,12 +90,25 @@ function updateParam(id, param){
     .catch( error=>console.error( JSON.stringify(error) ) )
 
 }
-//updateParam('123', {order: 0, name: 'Новое имя'})
 
+//updateParam('123', {content: str})
 /*
 
-update workbooks set hide = true, name = "let Новое имя", order = 99 where id="123"
-http://atlant.mcacademy.ru/reindexer/api/v1/db/mcap_learn/query?q=update%20workbooks%20set%20name%20%3D%20%22%D0%9D%D0%BE%D0%B2%D0%BE%D0%B5%20%D0%B8%D0%BC%D1%8F%22%20where%20id%3D%22123%22
+
+{
+  "id": "1",
+  "player": "mcap_serg",
+  "subject": "A1-1.1",
+  "tso": 0,
+  "dto": "",
+  "code": 0,
+  "order": 0,
+  "name": "+++++++ бъяление let",
+  "source": "Интересно, ",
+  "content": "PUT PUT PUT PUT",
+  "link": "",
+  "mark1": 0,
+  "mark2": "",
+  "hide": false
+}
  */
-
-

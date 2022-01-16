@@ -4,7 +4,22 @@ import bus from '../utils/bus.js'
 const data = {
   notes: null,
   courses: null,
-  ctx: null,
+  ctx: {
+    "id": "",
+    "player": "",
+    "subject": "",
+    "tso": 0,
+    "dto": "",
+    "code": 0,
+    "order": 0,
+    "name": "",
+    "source": "",
+    "content": "...",
+    "link": "",
+    "mark1": 0,
+    "mark2": "",
+    "hide": false
+  },
   newCtx: null,
   content: {},
   screenContainer: null,
@@ -13,22 +28,13 @@ const data = {
   courseID: null,
   subjectID: null,
   courseName: null,
-  ui: {}
+  ui: {},
+  history: [],
+  edited: false,
+  editBtnText: '',
+  addNote: true
 };
 
-const state = new Proxy(data, {
-  get: function(target, key) {
 
-    return Reflect.get(target, key);
-  },
-  set: function(target, key, value) {
-
-    return Reflect.set(target, key, value);
-  }
-});
-
-
-
-
-export default state
+export default data
 

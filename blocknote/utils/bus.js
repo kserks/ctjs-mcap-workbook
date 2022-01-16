@@ -14,9 +14,6 @@ class EventEmitter {
             handler.call(this, a)
           })
       }
-      else {
-        console.error('Event not defined')
-      }
 
   }
   off (event){

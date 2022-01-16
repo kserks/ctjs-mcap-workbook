@@ -10,7 +10,8 @@ import {
   UIMultilineTextInput,
   UITextInput,
   UIContainer,
-  MarkdownComponent
+  MarkdownComponent,
+  ScrollComponent
 } from 'Elementa'
 
 import color from '../../../utils/color.js'
@@ -74,17 +75,26 @@ const contentNoteBodyWrapper = new UIRoundedRectangle(3)
                 .setColor( color.content )
                 .setChildOf(contentNoteCenter)
 
-const __str =  ''                
-  state.content.centerText = new UIWrappedText(__str, false)
-                      .setX( (5).pixels() )
-                      .setY( (5).pixels() )
-                      .setWidth(new SubtractiveConstraint( (100).percent(), (10).pixels() ))
-                      //.setHeight(new SubtractiveConstraint( (100).percent(), (10).pixels() ))
+
+const contentNoteBodyWrapperScroll = new ScrollComponent()
+              .setX( (5).pixels() )
+              .setY( (5).pixels())
+              .setWidth( new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
+              .setHeight(new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
+              .setChildOf(contentNoteBodyWrapper)
+       
+  state.content.centerText = new UIWrappedText('', false)
+                      .setX( (0).pixels() )
+                      .setY( (0).pixels() )
+                      .setWidth(new SubtractiveConstraint( (100).percent(), (0).pixels() ))
+                      //.setHeight(new SubtractiveConstraint( (100).percent(), (0).pixels() ))
                       .setColor(color.asideNoteItemText)
-                      .setChildOf(contentNoteBodyWrapper)
+                      .setChildOf(contentNoteBodyWrapperScroll)
   if(state.ctx){
     state.content.inputOrder.setText(state.ctx.order)
     state.content.centerHeaderText.setText(state.ctx.name)
-    state.content.centerText.setText(state.ctx.content)
+    state.content.centerText.setText(base64.decode(state.ctx.content) )
+    state.mode = 'view'
   }
+
 }

@@ -4,6 +4,7 @@ export default {
   body:                     sRGBa(0, 0, 0, 0),
   wrapper:                  sRGBa(0.75, 0.82, 0.92, 0.9),
   disabled:                 sRGBa(0.37, 0.37, 0.37, 0.5),
+  disabled2:                sRGBa(0.77, 0.83, 0.83),
   disabledText:             sRGBa(0.56, 0.6, 0.64),
   itemActiveText:           sRGBa(0.19, 0.72, 0.79, 0.7),
   //top-bar
@@ -14,7 +15,7 @@ export default {
   aside:                    sRGBa(0.01, 0.08, 0.12, 0.7),
   asideNoteItem:            sRGBa(0, 0, 0, 0.6),
   asideNoteItemHover:       sRGBa(0, 0, 0, 0.9),
-  asideNoteItemText:        sRGBa(1, 1, 1),
+  asideNoteItemText:        sRGBa(0.8, 0.82, 0.82),
   //
   content:                  sRGBa(0.01, 0.08, 0.12, 0.7),
   contentNoteCollapsed:     sRGBa(0, 0, 0, 1),
