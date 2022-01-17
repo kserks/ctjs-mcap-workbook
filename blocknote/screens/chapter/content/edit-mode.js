@@ -18,8 +18,11 @@ import editBtns from './edit-btns.js'
 import * as base64 from '../../../utils/base64.js'
 import state from '../../../lib/state.js'
 
-export default function (contentNoteCenter){
 
+
+
+export default function (contentNoteCenter){
+//state.gui2.open()
 contentNoteCenter.clearChildren()
 /**
  * CONTENT Header
@@ -41,6 +44,9 @@ const orderWrapper = new UIRoundedRectangle(3)
                     state.content.inputOrderEdited.grabWindowFocus()
                     //let text = inputOrderEdited.getText()
                 })
+                /*.onUpdate(function (event){
+                  ChatLib.chat('test')
+                })*/
                 .setChildOf(contentHeader)
 
 state.content.inputOrderEdited = new UITextInput('')
@@ -99,3 +105,14 @@ const __str =  ''
   state.edited = true
   state.editBtnText.setText('Сохранить')
 }
+
+
+/*
+state.keyboardHandler = function (character, keyCode){
+            if(state.mode==='edit'){
+              ChatLib.chat("-> " + character+' : '+keyCode);
+            }
+}
+state.gui2.close()
+
+*/

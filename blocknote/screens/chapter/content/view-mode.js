@@ -22,6 +22,7 @@ import state from '../../../lib/state.js'
 
 export default function (contentNoteCenter){
 contentNoteCenter.clearChildren()
+
 /**
  * CONTENT Header
  */
@@ -82,19 +83,27 @@ const contentNoteBodyWrapperScroll = new ScrollComponent()
               .setWidth( new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
               .setHeight(new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
               .setChildOf(contentNoteBodyWrapper)
-       
-  state.content.centerText = new UIWrappedText('', false)
+  const _content = base64.decode(state.ctx.content)     
+ /* state.content.centerText = new UIWrappedText('', false)
                       .setX( (0).pixels() )
                       .setY( (0).pixels() )
                       .setWidth(new SubtractiveConstraint( (100).percent(), (0).pixels() ))
                       //.setHeight(new SubtractiveConstraint( (100).percent(), (0).pixels() ))
                       .setColor(color.asideNoteItemText)
                       .setChildOf(contentNoteBodyWrapperScroll)
-  if(state.ctx){
+
+           */
+                new MarkdownComponent(_content)
+                        .setX( (0).pixels() )
+                        .setY( (0).pixels() )
+                        .setWidth( new SubtractiveConstraint( (100).percent(), (0).pixels() ) )
+                        .setColor(color.asideNoteItemText)
+                        .setChildOf(contentNoteBodyWrapperScroll)
+
     state.content.inputOrder.setText(state.ctx.order)
     state.content.centerHeaderText.setText(state.ctx.name)
-    state.content.centerText.setText(base64.decode(state.ctx.content) )
+    //state.content.centerText.setText(base64.decode(state.ctx.content) )
     state.mode = 'view'
-  }
+
 
 }

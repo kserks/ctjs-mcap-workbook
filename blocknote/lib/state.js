@@ -14,7 +14,7 @@ const data = {
     "order": 0,
     "name": "",
     "source": "",
-    "content": "...",
+    "content": "",
     "link": "",
     "mark1": 0,
     "mark2": "",
@@ -32,7 +32,8 @@ const data = {
   history: [],
   edited: false,
   editBtnText: '',
-  addNote: true
+  addNote: true,
+  keyboardHandler: function (){}
 };
 
 

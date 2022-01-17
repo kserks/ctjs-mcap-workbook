@@ -42,7 +42,7 @@ getWorkbooks(function (notes){
                           state.ctx = ctx
                           state.content.inputOrder.setText(state.ctx.order)
                           state.content.centerHeaderText.setText(state.ctx.name)
-                          state.content.centerText.setText(base64.decode(state.ctx.content) ) 
+                          //state.content.centerText.setText(base64.decode(state.ctx.content) ) 
                           //state.history.push({index, ctx: state.ctx})
                           state.edited = false
                           state.editBtnText.setText('Изменить')

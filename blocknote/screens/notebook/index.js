@@ -21,7 +21,22 @@ var courseName = null
 function showNotebooksList(){
     const parent = state.screenContainer
     parent.clearChildren()
-    state.ctx = null
+    state.ctx = {
+      "id": "",
+      "player": "",
+      "subject": "",
+      "tso": 0,
+      "dto": "",
+      "code": 0,
+      "order": 0,
+      "name": "",
+      "source": "",
+      "content": "",
+      "link": "",
+      "mark1": 0,
+      "mark2": "",
+      "hide": false
+  }
     var selectSubject = null
       /**
        * LEFT WRAPPER

@@ -123,7 +123,7 @@ const writeBtn = new UIRoundedRectangle(3)
                 })
                 .onMouseClick(addNote)*/
                 .setChildOf(wrapper)
-      new UIText('4', false)
+      new UIText('#', false)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
