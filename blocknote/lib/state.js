@@ -10,8 +10,7 @@ const data = {
     "subject": "",
     "tso": 0,
     "dto": "",
-    "code": 0,
-    "order": 0,
+    "order": '',
     "name": "",
     "source": "",
     "content": "",
@@ -32,8 +31,7 @@ const data = {
   history: [],
   edited: false,
   editBtnText: '',
-  addNote: true,
-  keyboardHandler: function (){}
+  addNote: true
 };
 
 

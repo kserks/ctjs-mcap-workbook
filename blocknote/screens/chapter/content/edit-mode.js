@@ -44,9 +44,6 @@ const orderWrapper = new UIRoundedRectangle(3)
                     state.content.inputOrderEdited.grabWindowFocus()
                     //let text = inputOrderEdited.getText()
                 })
-                /*.onUpdate(function (event){
-                  ChatLib.chat('test')
-                })*/
                 .setChildOf(contentHeader)
 
 state.content.inputOrderEdited = new UITextInput('')
@@ -54,8 +51,20 @@ state.content.inputOrderEdited = new UITextInput('')
                     .setY((4).pixels())
                     .setWidth(new SubtractiveConstraint( (100).percent(), (0).pixels() ))
                     .setHeight((20).pixels())
+                    .onKeyType((char, keyCode)=>{
+                        if(isNaN(parseFloat(keyCode))){
+                          state.content.inputOrderEdited.setText('')
+                        }
+                        if(state.content.inputOrderEdited.getText().length>2){
+                          state.content.inputOrderEdited.setText('')
+                        }
+                    })
+                    .onFocusLost(()=>{
+                        if(state.content.inputOrderEdited.getText()===''){
+                          state.content.inputOrderEdited.setText(state.notes.length)
+                        }
+                    })
                     .setChildOf(orderWrapper)
-
     
 //header title
 const titleWrapper = new UIRoundedRectangle(3)
@@ -100,19 +109,8 @@ const __str =  ''
   state.content.inputOrderEdited.setText(state.ctx.order)
   state.content.centerHeaderTextEdited.setText(state.ctx.name)
   state.content.centerTextEdited.setText(base64.decode(state.ctx.content) )
-
   state.mode = 'edit'
   state.edited = true
   state.editBtnText.setText('Сохранить')
 }
 
-
-/*
-state.keyboardHandler = function (character, keyCode){
-            if(state.mode==='edit'){
-              ChatLib.chat("-> " + character+' : '+keyCode);
-            }
-}
-state.gui2.close()
-
-*/

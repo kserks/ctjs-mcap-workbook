@@ -45,43 +45,8 @@ state.contentNoteCenter = new UIContainer()
                 .setHeight( new SubtractiveConstraint( (100).percent(), (40).pixels() ) )
                 .setChildOf(content)
 
-
-
-
-state.viewMode(state.contentNoteCenter)
-
-/**
- * TEXTAREA
- *//*
-const textAreaWrapper = new UIRoundedRectangle(3)
-  .setX( (5).pixels() )
-  .setY( new SiblingConstraint(5) )
-  .setWidth( new SubtractiveConstraint( (100).percent(), (10).pixels() ))
-  .setHeight( new SubtractiveConstraint( (27.5).percent(), (10).pixels() ))
-  .setColor( color.contentNoteCollapsed )
-  .setChildOf(content)
-  state.content.textArea = new UIMultilineTextInput("...")
-                   .setMaxLines(10)
-                   .setX( (5).pixels() )
-                   .setY( (5).pixels() )
-                   .setWidth( new SubtractiveConstraint( (100).percent(), (5).pixels() ) )
-                   .setHeight( new SubtractiveConstraint( (100).percent(), (5).pixels() ))
-                   .setChildOf(textAreaWrapper)
-   
-             textAreaWrapper.onMouseClick(function (){
-                  state.content.textArea.grabWindowFocus()
-             })*/
-             
+  state.viewMode(state.contentNoteCenter)        
   editBtns(content)
-
-
   parent.addChild(content)
 
 }
-
-/*
-bus.on('ctx', function (ctx){ 
-  state.content.inputOrder.setText(ctx.order)
-  state.content.centerHeaderText.setText(ctx.name)
-  state.content.centerText.setText(ctx.content) 
-})*/

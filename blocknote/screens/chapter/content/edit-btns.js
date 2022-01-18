@@ -142,11 +142,14 @@ function editHandler(){
   }
   else{
     if(state.edited){
+      const content = base64.encode(state.content.centerTextEdited.getText())
       state.editBtnText.setText('Изменить')
       //подставляем отредактированные данные вместо старых
       state.ctx.order = new Number(state.content.inputOrderEdited.getText())
       state.ctx.name = state.content.centerHeaderTextEdited.getText()
-      state.ctx.content = base64.encode(state.content.centerTextEdited.getText())
+      state.ctx.source = content
+      state.ctx.content = content
+
       request.updateNote(state.ctx, function (){})
     }
     state.viewMode(state.contentNoteCenter)
@@ -159,8 +162,7 @@ function addNote (){
   state.addNote = false
 const body = state.content.centerTextEdited.getText()
 const content = base64.encode(body)
-
-                  state.ctx.id =  uid(8)
+                  state.ctx.id = uid()
                   state.ctx.player = Player.getName()
                   state.ctx.subject = state.subjectID
                   state.ctx.tso = 0
@@ -178,7 +180,6 @@ const content = base64.encode(body)
                     state.ui.notes()
                   })
                   state.viewMode(state.contentNoteCenter)
-
 }
 
 
