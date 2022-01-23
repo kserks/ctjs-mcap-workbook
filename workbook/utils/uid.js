@@ -1,7 +1,7 @@
 var IDX=256, HEX=[], SIZE=256, BUFFER;
 while (IDX--) HEX[IDX] = (IDX + 256).toString(16).substring(1);
 
-export default function uuid(){
+export default function (){
     var seed = Date.now();
 
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

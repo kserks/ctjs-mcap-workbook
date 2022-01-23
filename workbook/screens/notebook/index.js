@@ -27,20 +27,20 @@ function showNotebooksList(){
       "subject": "",
       "tso": 0,
       "dto": "",
+      "index": 1,
       "order": '',
       "name": "",
-      "source": "",
       "content": "",
-      "link": "",
-      "mark1": 0,
-      "mark2": "",
+      "linkin": "",
+      "linkout": "",
+      "mark": 0,
+      "remark": "",
       "hide": false
   }
-    var selectSubject = null
+      var selectSubject = null
       /**
        * LEFT WRAPPER
        */
-
         const selectCourseScreen = new UIRoundedRectangle(3)
                   .setX( (0).pixels() )
                   .setY( (0).pixels() )
@@ -81,8 +81,7 @@ function showNotebooksList(){
                   })
                   .setChildOf(selectCourseScreen)
                   
-
-          itemText = new UIText(item.id+' '+item.name, false)
+          itemText = new UIText(getSplicedName (courseItemComponent, item.name), false)
                         .setX( (5).pixels() )
                         .setY( new CenterConstraint() )
                         .setColor(color.asideNoteItemText)
@@ -100,17 +99,13 @@ function showNotebooksList(){
         parent.addChild(selectSubject)
   }
 
-
-
 /**
  * Subjects
  */
-
-function getSubjects (id, selectSubject, parent){
- // let itemText = null
+function getSubjects (id, parent){
   request.getSubjects(id, subjects=>{
         //Костыль для первого отступа [hover->не забыть добавить текст]         
-        new UIContainer().setX( (0).pixels() ).setY( (0).pixels() ).setWidth( (5).pixels() ).setHeight( (0).pixels() ).setChildOf(selectSubject)
+        new UIContainer().setX( (0).pixels() ).setY( (0).pixels() ).setWidth( (5).pixels() ).setHeight( (0).pixels() ).setChildOf(parent)
         // рисуем список subjects
         subjects.map(item=>{
             const subjectItem = new UIRoundedRectangle(3)
@@ -126,18 +121,15 @@ function getSubjects (id, selectSubject, parent){
                       _this.setColor(color.asideNoteItem)
                   })
                   .onMouseClick(_this=>{
-                      //clearActiveItem(_this.getParent())
-                      //itemText.setColor(color.itemActiveText)
                       state.subjectID = item.id
                       state.workbookBtnText.setText(state.courseID+' / '+state.subjectID)
                       state.topBarTitle.setText(courseName+'\n'+item.name)
                       state.screenContainer.clearChildren()
                       state.screen.chapter()
-
                   })
-                  .setChildOf(selectSubject)
+                  .setChildOf(parent)
                   
-          itemText = new UIText(item.id+' '+item.name, false)
+          itemText = new UIText(getSplicedName (parent, item.name), false)
                         .setX( (5).pixels() )
                         .setY( new CenterConstraint() )
                         .setColor(color.asideNoteItemText)
@@ -148,7 +140,13 @@ function getSubjects (id, selectSubject, parent){
 
 
 export default function (){
-
   request.getAllCourses(showNotebooksList)
+}
 
+
+function getSplicedName (parent, name){
+  if(parent.getWidth()<400){
+    return name.slice(0, 47)
+  }
+  return name
 }

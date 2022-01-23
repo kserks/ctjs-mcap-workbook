@@ -4,5 +4,5 @@
 ### Usage
 ```bash
 /ct load
-/bn
+/wb
 ```

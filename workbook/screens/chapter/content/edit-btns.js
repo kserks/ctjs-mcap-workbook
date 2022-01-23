@@ -16,11 +16,9 @@ import state from '../../../lib/state.js'
 import uid from '../../../utils/uid.js'
 import * as base64 from '../../../utils/base64.js'
 import * as request from '../../../lib/request.js'
-
-
-
+import getLinkout from '../../../utils/get-linkout.js'
+ChatLib.chat(getLinkout())
 export default function (parent){
-
 /**
  * WRAPPER 
  */
@@ -29,7 +27,6 @@ const wrapper = new UIContainer()
                 .setY( new SiblingConstraint(10) )
                 .setWidth( new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
                 .setHeight( (20).pixels() )
-
 /**
  * HIDE
  */
@@ -59,8 +56,6 @@ const hideBtn = new UIRoundedRectangle(3)
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
                       .setChildOf(hideBtn)          
-
-
 
 /**
  * RESTORE
@@ -114,31 +109,21 @@ const writeBtn = new UIRoundedRectangle(3)
                 .setY( (0).pixels() )
                 .setWidth( new SubtractiveConstraint( (25).percent(), (0).pixels() ) )
                 .setHeight( (20).pixels() )
-                .setColor( color.disabled )
-                /*.onMouseEnter( _this=>{
-                      _this.setColor(color.asideNoteItemHover)
-                })
-                .onMouseLeave( _this=>{
-                      _this.setColor( color.disabled )
-                })
-                .onMouseClick(addNote)*/
+                .setColor( color.content )
                 .setChildOf(wrapper)
-      new UIText('#', false)
+  state.ui.mark = new UIText('', false)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
                       .setChildOf(writeBtn)
+
   parent.addChild(wrapper)
 }
 
 
-
 function editHandler(){
-
   if(state.mode==='view'){
     state.editMode(state.contentNoteCenter)
-
-
   }
   else{
     if(state.edited){
@@ -147,9 +132,9 @@ function editHandler(){
       //подставляем отредактированные данные вместо старых
       state.ctx.order = new Number(state.content.inputOrderEdited.getText())
       state.ctx.name = state.content.centerHeaderTextEdited.getText()
-      state.ctx.source = content
       state.ctx.content = content
-
+      state.ctx.tso = Number( new Date().getTime() )
+      state.ctx.dto = new Date().toLocaleString()
       request.updateNote(state.ctx, function (){})
     }
     state.viewMode(state.contentNoteCenter)
@@ -160,28 +145,32 @@ function editHandler(){
 
 function addNote (){
   state.addNote = false
-const body = state.content.centerTextEdited.getText()
+  const body = state.content.centerTextEdited.getText()
+  let name = state.content.centerHeaderTextEdited.getText()
+  if(name===''){
+    name = 'Новая запись'
+  }
+
 const content = base64.encode(body)
                   state.ctx.id = uid()
                   state.ctx.player = Player.getName()
                   state.ctx.subject = state.subjectID
-                  state.ctx.tso = 0
-                  state.ctx.dto = ""
-                  state.ctx.code = 0
+                  state.ctx.tso = Number( new Date().getTime() )
+                  state.ctx.dto = new Date().toLocaleString()
                   state.ctx.order = new Number(state.content.inputOrderEdited.getText())
-                  state.ctx.name = state.content.centerHeaderTextEdited.getText()
-                  state.ctx.source = content
+                  state.ctx.name = name
                   state.ctx.content = content
-                  state.ctx.link = ""
-                  state.ctx.mark1 = 0
-                  state.ctx.mark2 = ""
+                  state.ctx.index = 1
+                  state.ctx.linkin = ""
+                  state.ctx.linkout = ""
+                  state.ctx.mark = 0
+                  state.ctx.remark = ""
                   state.ctx.hide = false
                   request.addNote(state.ctx, ()=>{
                     state.ui.notes()
                   })
                   state.viewMode(state.contentNoteCenter)
 }
-
 
 
 function setCurrentContent(){

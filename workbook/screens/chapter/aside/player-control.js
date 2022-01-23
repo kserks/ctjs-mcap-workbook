@@ -11,11 +11,11 @@ import {
 } from 'Elementa'
 
 import color from '../../../utils/color.js'
-
+import uid from '../../../utils/uid.js'
 import state from '../../../lib/state.js'
+import getLinkout from '../../../utils/get-linkout.js'
+import * as request from '../../../lib/request.js'
 
-
-var noteName =  null
 
 export default function (parent){
 
@@ -51,7 +51,7 @@ const noteNameWrapper = new UIRoundedRectangle(3)
         .setHeight((20).pixels())
         .setColor(color.content )
         .setChildOf(copyWrapper)
-  noteName = new UITextInput('Ссылка')
+  state.ui.linkin = new UITextInput('Ссылка')
                   .setX((5).pixels())
                   .setY((5).pixels())
                   .setWidth(new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
@@ -59,7 +59,7 @@ const noteNameWrapper = new UIRoundedRectangle(3)
                   .setChildOf(noteNameWrapper)
 
     noteNameWrapper.onMouseClick((mx, my, btn) => {
-            noteName.grabWindowFocus()
+            state.ui.linkin.grabWindowFocus()
     })
 /**
  * ДАЙ СПИСАТЬ
@@ -75,6 +75,11 @@ const newCopyBtn = new UIRoundedRectangle(3)
                 })
                 .onMouseLeave( _this=>{
                       _this.setColor( color.disabled )
+                })
+                .onMouseClick(()=>{
+                  if(state.ui.linkin!==''){
+                    copyNote()
+                  }
                 })
                 .setChildOf(copyWrapper)
       new UIText('Дай списать', false)
@@ -102,7 +107,7 @@ const starOrNameWrapper = new UIRoundedRectangle(3)
                 .setHeight( (20).pixels() )
                 .setColor(color.content )
                 //.setChildOf(LinkWrapper)
-      const starOrName = new UITextInput('* или Имя')
+      state.ui.starOrName = new UITextInput('* или Имя')
                       .setX((5).pixels())
                       .setY((5).pixels())
                       .setWidth(new SubtractiveConstraint( (100).percent(), (5).pixels() ) )
@@ -110,7 +115,7 @@ const starOrNameWrapper = new UIRoundedRectangle(3)
                       .setChildOf(starOrNameWrapper)
 
         starOrNameWrapper.onMouseClick((mx, my, btn) => {
-            starOrName.grabWindowFocus()
+            state.ui.starOrName.grabWindowFocus()
         })
 
     linkWrapper.addChild(starOrNameWrapper)
@@ -130,13 +135,26 @@ const sendLinkBtn = new UIRoundedRectangle(3)
                 .onMouseLeave( _this=>{
                       _this.setColor( color.disabled )
                 })
+                .onMouseClick(()=>{
+                    if(state.ctx.id !==""){
+                      if(state.ui.starOrName!==''){
+                            let player = state.ui.starOrName.getText()
+                            if(player==='*'){
+                                ChatLib.chat(`${state.ctx.linkout}`)       
+                            }
+                            else{
+                                let str = `msg ${player} ${state.ctx.linkout}`
+                                ChatLib.command(str)
+                            }
+                      }
+                    }
+                })
                 .setChildOf(linkWrapper)
       new UIText('Кинуть ссылку', false)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
                       .setColor(color.disabledText)
                       .setChildOf(sendLinkBtn)   
-
 /**
  * НОВАЯ
  */
@@ -169,7 +187,7 @@ function addNewNote (){
 
   state.addNote = true
 
-var name = noteName.getText()
+
 
 const ctx = {
   "id": "",
@@ -177,21 +195,47 @@ const ctx = {
   "subject": state.subjectID,
   "tso": 0,
   "dto": "",
-  "code": 0,
-  "order": state.notes.length,
-  "name": name,
-  "source": "",
+  "order": state.notes.length+1,
+  "name": "",
+  "index": 1,
   "content": "",
-  "link": "",
-  "mark1": 0,
-  "mark2": "",
+  "linkin": "",
+  "linkout": "",
+  "mark": 0,
+  "remark": "",
   "hide": false
 }
-
- // addNote(body)
-
   state.notes.push(ctx)
   state.ctx = ctx
-
   state.editMode(state.contentNoteCenter)
 }
+
+/**
+ * Дай списать
+ */
+
+function copyNote(){
+
+
+   request.copyNote (state.ui.linkin.getText(), (ctx, linkout)=>{
+      state.ctx = state.linkInObj
+      state.ctx.id = uid()
+      state.ctx.player = Player.getName()
+      state.ctx.mark = 0
+      state.ctx.remark = ""
+      state.ctx.linkin = linkout
+      state.ctx.linkout = getLinkout(33)
+      state.notes.push(state.ctx)
+      request.getMax (max=>{
+           state.ctx.index =max+1
+           request.addNote(state.ctx, ()=>{
+              state.ui.notes()
+              console.log('Note has coped')
+           })
+      })
+
+      
+   })
+
+}
+

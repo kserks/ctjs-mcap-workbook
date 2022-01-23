@@ -92,23 +92,33 @@ function updateParam(id, param){
 }
 
 //updateParam('123', {content: str})
-/*
+export function copyNote (linkout, callback){
 
+    request({
+        url: query.copyNoteURL(linkout)
+    })
+    .then(response=>{
+        state.linkInObj = JSON.parse(response).items[0]
+        
+        callback(state.linkInObj, linkout)
+    })
+    .catch( error=>console.error(JSON.stringify(error) ) )
 
-{
-  "id": "1",
-  "player": "mcap_serg",
-  "subject": "A1-1.1",
-  "tso": 0,
-  "dto": "",
-  "code": 0,
-  "order": 0,
-  "name": "+++++++ бъяление let",
-  "source": "Интересно, ",
-  "content": "PUT PUT PUT PUT",
-  "link": "",
-  "mark1": 0,
-  "mark2": "",
-  "hide": false
 }
- */
+export function getMax (callback){
+
+    request({
+        url: query.maxUrl(Player.getName())
+    })
+    .then(response=>{
+        state.maxPlayerNotes = JSON.parse(response).aggregations[0].value
+
+       callback(state.maxPlayerNotes)
+    })
+    .catch( error=>console.error(JSON.stringify(error) ) )
+
+}
+
+getMax ()
+
+

@@ -20,7 +20,7 @@ parent.clearChildren()
 
 
 getWorkbooks(function (notes){
-
+      
       notes.map( (ctx, index)=>{
         if(!ctx.hide){
               let itemText = null
@@ -42,15 +42,18 @@ getWorkbooks(function (notes){
                           state.ctx = ctx
                           state.content.inputOrder.setText(state.ctx.order)
                           state.content.centerHeaderText.setText(state.ctx.name)
-                          //state.content.centerText.setText(base64.decode(state.ctx.content) ) 
-                          //state.history.push({index, ctx: state.ctx})
                           state.edited = false
                           state.editBtnText.setText('Изменить')
                           state.addNote = false
+                          if(state.ctx.mark===0){
+                              state.ui.mark.setText('')
+                          }
+                          else{
+                              state.ui.mark.setText(state.ctx.mark+' '+state.ctx.remark)
+                          }
                           state.viewMode(state.contentNoteCenter)
                       })
                 
-
               itemText = new UIText(ctx.order+'. '+ctx.name, false)
                             .setX( (5).pixels() )
                             .setY( new CenterConstraint() )
