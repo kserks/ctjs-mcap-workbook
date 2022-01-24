@@ -187,14 +187,12 @@ function addNewNote (){
 
   state.addNote = true
 
-
+state.ui.notes()
 
 const ctx = {
   "id": "",
   "player": Player.getName(),
   "subject": state.subjectID,
-  "tso": 0,
-  "dto": "",
   "order": state.notes.length+1,
   "name": "",
   "index": 1,
@@ -205,8 +203,9 @@ const ctx = {
   "remark": "",
   "hide": false
 }
-  state.notes.push(ctx)
+
   state.ctx = ctx
+  state.notes.push(state.ctx)
   state.editMode(state.contentNoteCenter)
 }
 
@@ -224,10 +223,11 @@ function copyNote(){
       state.ctx.mark = 0
       state.ctx.remark = ""
       state.ctx.linkin = linkout
-      state.ctx.linkout = getLinkout(33)
+      
       state.notes.push(state.ctx)
       request.getMax (max=>{
            state.ctx.index =max+1
+           state.ctx.linkout = getLinkout(state.ctx.index)
            request.addNote(state.ctx, ()=>{
               state.ui.notes()
               console.log('Note has coped')

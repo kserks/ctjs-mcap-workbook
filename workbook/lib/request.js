@@ -14,12 +14,10 @@ export function getWorkbooks (callback){
     .catch(error=>console.error(error))
 }
 
-
-
 // POST /db/{database}/namespaces/{name}/items
 
 export function addNote (body, callback){
-
+    console.log(JSON.stringify(body))
   request({
     url: query.setNoteURL,
     method: 'POST',
@@ -32,7 +30,7 @@ export function addNote (body, callback){
     console.log(response)
     callback()
   })
-  .catch( error=>console.error(error) )
+  .catch( error=>console.error(JSON.stringify(error) ) )
 
 }
 
@@ -119,6 +117,5 @@ export function getMax (callback){
 
 }
 
-getMax ()
 
 

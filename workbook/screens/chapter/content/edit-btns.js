@@ -16,8 +16,8 @@ import state from '../../../lib/state.js'
 import uid from '../../../utils/uid.js'
 import * as base64 from '../../../utils/base64.js'
 import * as request from '../../../lib/request.js'
-import getLinkout from '../../../utils/get-linkout.js'
-ChatLib.chat(getLinkout())
+
+
 export default function (parent){
 /**
  * WRAPPER 
@@ -129,15 +129,24 @@ function editHandler(){
     if(state.edited){
       const content = base64.encode(state.content.centerTextEdited.getText())
       state.editBtnText.setText('Изменить')
-      //подставляем отредактированные данные вместо старых
+      state.ctx.id = uid()
+      state.ctx.player = Player.getName()
       state.ctx.order = new Number(state.content.inputOrderEdited.getText())
       state.ctx.name = state.content.centerHeaderTextEdited.getText()
       state.ctx.content = content
-      state.ctx.tso = Number( new Date().getTime() )
-      state.ctx.dto = new Date().toLocaleString()
-      request.updateNote(state.ctx, function (){})
+      state.ctx.linkin = state.ctx.linkout
+      state.ctx.linkout = ''
+      request.getMax (max=>{
+              state.ctx.index = max+1
+              request.updateNote(state.ctx, ()=>{
+                     state.notes.push(state.ctx)
+
+                     state.ui.notes()
+                     state.viewMode(state.contentNoteCenter)
+              })
+      })
     }
-    state.viewMode(state.contentNoteCenter)
+   
   }
 }
 
@@ -155,21 +164,23 @@ const content = base64.encode(body)
                   state.ctx.id = uid()
                   state.ctx.player = Player.getName()
                   state.ctx.subject = state.subjectID
-                  state.ctx.tso = Number( new Date().getTime() )
-                  state.ctx.dto = new Date().toLocaleString()
                   state.ctx.order = new Number(state.content.inputOrderEdited.getText())
                   state.ctx.name = name
                   state.ctx.content = content
-                  state.ctx.index = 1
                   state.ctx.linkin = ""
                   state.ctx.linkout = ""
                   state.ctx.mark = 0
                   state.ctx.remark = ""
                   state.ctx.hide = false
-                  request.addNote(state.ctx, ()=>{
-                    state.ui.notes()
-                  })
-                  state.viewMode(state.contentNoteCenter)
+                  request.getMax (max=>{
+                       state.ctx.index =max+1
+                       request.addNote(state.ctx, ()=>{
+                         
+                          state.ui.notes()
+                          state.viewMode(state.contentNoteCenter)
+                       })
+                  })     
+   
 }
 
 

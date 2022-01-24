@@ -61,7 +61,7 @@ state.content.inputOrderEdited = new UITextInput('')
                     })
                     .onFocusLost(()=>{
                         if(state.content.inputOrderEdited.getText()===''){
-                          state.content.inputOrderEdited.setText(state.notes.length)
+                          state.content.inputOrderEdited.setText(state.notes.length+1)
                         }
                     })
                     .setChildOf(orderWrapper)

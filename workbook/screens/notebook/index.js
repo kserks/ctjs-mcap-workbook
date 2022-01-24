@@ -25,8 +25,6 @@ function showNotebooksList(){
       "id": "",
       "player": "",
       "subject": "",
-      "tso": 0,
-      "dto": "",
       "index": 1,
       "order": '',
       "name": "",
