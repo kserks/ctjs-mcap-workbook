@@ -16,7 +16,7 @@ import state from '../../../lib/state.js'
 import uid from '../../../utils/uid.js'
 import * as base64 from '../../../utils/base64.js'
 import * as request from '../../../lib/request.js'
-
+import getLinkout from '../../../utils/get-linkout.js'
 
 export default function (parent){
 /**
@@ -135,9 +135,11 @@ function editHandler(){
       state.ctx.name = state.content.centerHeaderTextEdited.getText()
       state.ctx.content = content
       state.ctx.linkin = state.ctx.linkout
-      state.ctx.linkout = ''
+     
       request.getMax (max=>{
               state.ctx.index = max+1
+               state.ctx.linkout = getLinkout(state.ctx.index)
+
               request.updateNote(state.ctx, ()=>{
                      state.notes.push(state.ctx)
 
@@ -168,12 +170,12 @@ const content = base64.encode(body)
                   state.ctx.name = name
                   state.ctx.content = content
                   state.ctx.linkin = ""
-                  state.ctx.linkout = ""
                   state.ctx.mark = 0
                   state.ctx.remark = ""
                   state.ctx.hide = false
                   request.getMax (max=>{
                        state.ctx.index =max+1
+                       state.ctx.linkout = getLinkout(state.ctx.index)
                        request.addNote(state.ctx, ()=>{
                          
                           state.ui.notes()
