@@ -29,8 +29,8 @@ state.screen.chapter = chapter
 state.screen.notebook()
 
 
-const width = Renderer.screen.getWidth()
-const height = Renderer.screen.getHeight()
+const width = 720
+const height = 540
 
 
 const body = new UIBlock()

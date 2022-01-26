@@ -187,25 +187,23 @@ function addNewNote (){
 
   state.addNote = true
 
-state.ui.notes()
-
 const ctx = {
-  "id": "",
-  "player": Player.getName(),
-  "subject": state.subjectID,
-  "order": state.notes.length+1,
-  "name": "",
-  "index": 1,
-  "content": "",
-  "linkin": "",
-  "linkout": "",
-  "mark": 0,
-  "remark": "",
-  "hide": false
+    "id": "",
+    "player": Player.getName(),
+    "subject": state.subjectID,
+    "index": 1,
+    "order": state.notes.length+1,
+    "name": "",
+    "content": "",
+    "linkin": "",
+    "linkout": "",
+    "mark": 0,
+    "remark": "",
+    "hide": false
 }
 
+  state.notes.push(ctx)
   state.ctx = ctx
-  state.notes.push(state.ctx)
   state.editMode(state.contentNoteCenter)
 }
 

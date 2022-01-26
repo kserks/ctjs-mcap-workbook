@@ -6,7 +6,7 @@ import state from '../lib/state.js'
 export function getWorkbooks (callback){
 // subjectID
     
-    request({url: query.subjectsURL(state.subjectID)})
+    request({url: query.subjectsURL(state.subjectID, Player.getName())})
     .then(response=> {
         state.notes = JSON.parse(response).items
         callback(state.notes)
@@ -14,10 +14,12 @@ export function getWorkbooks (callback){
     .catch(error=>console.error(error))
 }
 
+
+
 // POST /db/{database}/namespaces/{name}/items
 
 export function addNote (body, callback){
-    console.log(JSON.stringify(body))
+
   request({
     url: query.setNoteURL,
     method: 'POST',
@@ -30,7 +32,7 @@ export function addNote (body, callback){
     console.log(response)
     callback()
   })
-  .catch( error=>console.error(JSON.stringify(error) ) )
+  .catch( error=>console.error(error) )
 
 }
 
@@ -117,5 +119,6 @@ export function getMax (callback){
 
 }
 
+getMax ()
 
 

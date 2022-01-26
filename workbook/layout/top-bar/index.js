@@ -49,37 +49,12 @@ const noteBookBtn = new UIRoundedRectangle(3)
 
 
 /**
- * Тема
- *//*
-const themeBtn = new UIRoundedRectangle(3)
-                .setX( ( (195/2)+5).pixels() )
-                .setY( new CenterConstraint() )
-                .setWidth( (195/2).pixels() )
-                .setHeight(  new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
-                .setColor( color.topBarItem )
-                .onMouseEnter( _this=>{
-                      _this.setColor(color.topBarItemHover)
-                })
-                .onMouseLeave( _this=>{
-                      _this.setColor(color.topBarItem)
-                })
-                .onMouseClick(_this=>{
-
-                })
-                .setChildOf(topBar)
-      new UIText('A1-1.1', false)
-                        .setX( (5).pixels() )
-                        .setY( new CenterConstraint() )
-                        .setColor(color.asideNoteItemText)
-                        .setChildOf(themeBtn)
-*/
-/**
  * Зелёная полоса
  */
 const greenBtn = new UIRoundedRectangle(3)
                 .setX( (205).pixels() )
                 .setY( new CenterConstraint() )
-                .setWidth( (360).pixels() )
+                .setWidth( new SubtractiveConstraint(new FillConstraint(), (15).pixels())  )
                 .setHeight(  new SubtractiveConstraint( (100).percent(), (10).pixels() ) )
                 .setColor( color.topBarType)
                 /*.onMouseEnter( _this=>{

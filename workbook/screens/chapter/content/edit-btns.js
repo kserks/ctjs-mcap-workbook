@@ -129,26 +129,16 @@ function editHandler(){
     if(state.edited){
       const content = base64.encode(state.content.centerTextEdited.getText())
       state.editBtnText.setText('Изменить')
-      state.ctx.id = uid()
-      state.ctx.player = Player.getName()
+      //подставляем отредактированные данные вместо старых
       state.ctx.order = new Number(state.content.inputOrderEdited.getText())
       state.ctx.name = state.content.centerHeaderTextEdited.getText()
       state.ctx.content = content
-      state.ctx.linkin = state.ctx.linkout
-     
-      request.getMax (max=>{
-              state.ctx.index = max+1
-               state.ctx.linkout = getLinkout(state.ctx.index)
 
-              request.updateNote(state.ctx, ()=>{
-                     state.notes.push(state.ctx)
-
-                     state.ui.notes()
-                     state.viewMode(state.contentNoteCenter)
-              })
+      request.updateNote(state.ctx, function (){
+        state.ui.notes()
       })
     }
-   
+    state.viewMode(state.contentNoteCenter)
   }
 }
 
@@ -170,19 +160,18 @@ const content = base64.encode(body)
                   state.ctx.name = name
                   state.ctx.content = content
                   state.ctx.linkin = ""
+                  state.ctx.linkout = ""
                   state.ctx.mark = 0
                   state.ctx.remark = ""
                   state.ctx.hide = false
                   request.getMax (max=>{
-                       state.ctx.index =max+1
-                       state.ctx.linkout = getLinkout(state.ctx.index)
-                       request.addNote(state.ctx, ()=>{
-                         
-                          state.ui.notes()
-                          state.viewMode(state.contentNoteCenter)
-                       })
-                  })     
-   
+                      state.ctx.index =max+1
+                      state.ctx.linkout = getLinkout(state.ctx.index)
+                      request.addNote(state.ctx, ()=>{
+                        state.ui.notes()
+                        state.viewMode(state.contentNoteCenter)
+                      })
+                  })                  
 }
 
 
