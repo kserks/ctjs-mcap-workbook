@@ -119,6 +119,11 @@ export function getMax (callback){
 
 }
 
-getMax ()
 
-
+export function deleteItem (id, callback){
+    request({url: query.deleteItem(id)})
+        .then(response=>{
+            callback()
+        })
+        .catch( error=>console.error(JSON.stringify(error) ) )
+}

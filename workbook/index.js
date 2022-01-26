@@ -24,5 +24,5 @@ const gui = GuiHandler.INSTANCE
 
 register("command", () => {
   gui.openGui(app)
-}).setName("wb2");
+}).setName("wb");
 

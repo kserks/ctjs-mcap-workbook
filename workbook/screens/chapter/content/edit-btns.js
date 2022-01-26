@@ -60,13 +60,34 @@ const hideBtn = new UIRoundedRectangle(3)
 /**
  * RESTORE
  */
+function isRestore(){
+    return state.ctx.id.length>0&&state.ctx.linkin!==""
+}
 const restoreBtn = new UIRoundedRectangle(3)
                 .setX( new SiblingConstraint(3) )
                 .setY( (0).pixels() )
                 .setWidth( new SubtractiveConstraint( (25).percent(), (3).pixels() ) )
                 .setHeight( (20).pixels() )
-                .setColor( color.disabled2 )
+                .setColor( color.disabled )
+                .onMouseEnter( _this=>{
+                      _this.setColor(color.asideNoteItemHover)
+                })
+                .onMouseLeave( _this=>{
+                      _this.setColor( color.disabled )
+                })
+                .onMouseClick(_this=>{
+                        if(isRestore()){
+                            let original =  state.notes.find(item=>item.linkout===state.ctx.linkin)
+                            if(original){
+                              restore(original.linkout)
+                              //state.methods.copyNote(original.linkout)
+
+                            }
+                        }
+                })
                 .setChildOf(wrapper)
+
+
       new UIText('Востановить', false)
                       .setX( new CenterConstraint() )
                       .setY( new CenterConstraint() )
@@ -133,7 +154,7 @@ function editHandler(){
       state.ctx.order = new Number(state.content.inputOrderEdited.getText())
       state.ctx.name = state.content.centerHeaderTextEdited.getText()
       state.ctx.content = content
-
+      state.ctx.linkin = state.ctx.linkin
       request.updateNote(state.ctx, function (){
         state.ui.notes()
       })
@@ -160,7 +181,6 @@ const content = base64.encode(body)
                   state.ctx.name = name
                   state.ctx.content = content
                   state.ctx.linkin = ""
-                  state.ctx.linkout = ""
                   state.ctx.mark = 0
                   state.ctx.remark = ""
                   state.ctx.hide = false
@@ -181,3 +201,41 @@ function setCurrentContent(){
       state.content.centerText.setText('')
 }
 
+
+
+
+function restore (linkout){
+
+  //console.log(linkout)
+request.deleteItem (state.ctx.id, ()=>{
+
+
+  copyNote()
+
+})
+
+  function copyNote(){
+    request.copyNote (linkout, (ctx, linkout)=>{
+          state.ctx = state.linkInObj
+          state.ctx.id = uid()
+          state.ctx.player = Player.getName()
+          state.ctx.mark = 0
+          state.ctx.remark = ""
+          state.ctx.linkin = linkout
+          
+          state.notes.push(state.ctx)
+          request.getMax (max=>{
+               state.ctx.index =max+1
+               state.ctx.linkout = getLinkout(state.ctx.index)
+               request.addNote(state.ctx, ()=>{
+                  state.ui.notes()
+            
+
+                  state.viewMode(state.contentNoteCenter)
+
+                  console.log('Note has coped')
+               })
+          })
+       })
+    }
+}

@@ -212,28 +212,35 @@ const ctx = {
  */
 
 function copyNote(){
+  let linkin = state.ui.linkin.getText()
 
-
-   request.copyNote (state.ui.linkin.getText(), (ctx, linkout)=>{
-      state.ctx = state.linkInObj
-      state.ctx.id = uid()
-      state.ctx.player = Player.getName()
-      state.ctx.mark = 0
-      state.ctx.remark = ""
-      state.ctx.linkin = linkout
-      
-      state.notes.push(state.ctx)
-      request.getMax (max=>{
-           state.ctx.index =max+1
-           state.ctx.linkout = getLinkout(state.ctx.index)
-           request.addNote(state.ctx, ()=>{
-              state.ui.notes()
-              console.log('Note has coped')
-           })
-      })
-
-      
-   })
+  
+   let   isExists =  state.notes.find(item=>item.linkin===linkin)
+ 
+ 
+  if(!isExists){
+       request.copyNote (linkin, (ctx, linkout)=>{
+          state.ctx = state.linkInObj
+          state.ctx.id = uid()
+          state.ctx.player = Player.getName()
+          state.ctx.mark = 0
+          state.ctx.remark = ""
+          state.ctx.linkin = linkout
+          
+          state.notes.push(state.ctx)
+          request.getMax (max=>{
+               state.ctx.index =max+1
+               state.ctx.linkout = getLinkout(state.ctx.index)
+               request.addNote(state.ctx, ()=>{
+                    state.ui.notes()
+                  console.log('Note has coped')
+               })
+          })
+       })
+  }
+  else{
+    console.log('Item is exists')
+  }
 
 }
 

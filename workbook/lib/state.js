@@ -30,7 +30,8 @@ const data = {
   history: [],
   edited: false,
   editBtnText: '',
-  addNote: true
+  addNote: true,
+  methods: {}
 };
 
 
